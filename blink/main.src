@@ -1,0 +1,58 @@
+PORT2_DR	.EQU	0008C022h
+PORT2_DDR	.EQU	0008C002h	
+	.SECTION FIXEDVECT,ROMDATA,align=4
+	.lword 0
+	.lword 0
+	.lword 0
+	.lword 0
+	.lword 0
+	.lword 0
+	.lword 0
+	.lword 0
+	.lword 0
+	.lword 0
+	.lword 0										
+	.lword _main
+	
+
+
+
+	.SECTION B,DATA
+
+	.SECTION P,CODE
+_main:
+	mov.l	#PORT2_DR, r1
+	mov.l	#0FFh, r2
+	mov.b	r2, [r1]
+
+
+LOOP:	
+	mov.l	#PORT2_DDR, r1
+	mov.l	#01h, r2
+	mov.b	r2, [r1]
+
+	MOV.L  #01FFFFFh, R4
+DELAY3:	
+	SUB	#01H,R4
+	BNE	DELAY3
+
+	mov.l	#PORT2_DDR, r1
+	mov.l	#02h, r2
+	mov.b	r2, [r1]
+	
+	MOV.L  #01FFFFFh, R4
+DELAY4:	
+	SUB	#01H,R4
+	BNE	DELAY4	
+	
+	BRA	LOOP
+	
+DELAY:
+	MOV.L  #01FFFFFh, R5
+DELAY2:	
+	SUB	#01H,R5
+	BNE	DELAY2
+	RTS	
+	
+	
+	.END
